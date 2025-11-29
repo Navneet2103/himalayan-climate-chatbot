@@ -25,6 +25,129 @@ interface Message {
   sources?: SourceData[];
 }
 
+// ============================================
+// PAPER LINKS CONFIGURATION
+// Add your Google Drive links here
+// ============================================
+const PAPER_LINKS: Record<string, string> = {
+  // 1-s2.0-S0048969723033569-main...
+  "1-s20-S0048969723033569-main.pdf": "https://drive.google.com/file/d/1_S06TbyM4DOmkOP8np7hJiJLrxcBObjl/view?usp=sharing",
+
+  // 1-s2.0-S0048969724003875-main...
+  "1-s20-S0048969724003875-main.pdf": "https://drive.google.com/file/d/1MJwfb74p1Qw9ZWTa82q3DjbzcCT3zOud/view?usp=sharing",
+
+  // 1-s2.0-S1470160X21003551-main...
+  "1-s20-S1470160X21003551-main.pdf": "https://drive.google.com/file/d/15mO3CYNOqNmIU5xi9xQujQxQFCqqClrZ/view?usp=sharing",
+
+  // Analysing climatic variability and extremes events in the Hi...
+  "Analysing_climatic_variability_and_extremes_events_in_the_Himalayan_regions_focu.pdf": "https://drive.google.com/file/d/1Z9ko1qg1mZ2zNVb0jq8J5-0YeNvtxOMy/view?usp=sharing",
+
+  // Assessing climate trends in the Northwestern Himalayas  a co...
+  "Assessing_climate_trends_in_the_Northwestern_Himalayas__a_comprehensive_analysis.pdf": "https://drive.google.com/file/d/1J1a4hWXUkqnNV-y77CjtpsvsQMuNu2TP/view?usp=sharing",
+
+  // Glacial lake changes and the identification of potentially d...
+  "Glacial_lake_changes_and_the_identification_of_potentially_dangerous_glacial_lak.pdf": "https://drive.google.com/file/d/1F_bPGuhroc9Y_7rA4SmUqm_zkMgEILxo/view?usp=sharing",
+
+  // PIIS2405844024168284...
+  "PIIS2405844024168284.pdf": "https://drive.google.com/file/d/1VsLTVQggfZMYYtmVaG-FHxJ9LoSWy64p/view?usp=sharing",
+
+  // SeasonalSpatio-TemporalVariabilityinTemperatureoverNorthKash...
+  "SeasonalSpatio-TemporalVariabilityinTemperatureoverNorthKashmirHimalayasUsingSen.pdf": "https://drive.google.com/file/d/1OFBdesd2fTDlxGO4r1HsveTQs6ow_XKj/view?usp=sharing",
+
+  // Water Resources Research - 2023 - Swarnkar - Increasing Floo...
+  "Water_Resources_Research_-_2023_-_Swarnkar_-_Increasing_Flood_Frequencies_Under_.pdf": "https://drive.google.com/file/d/1OX3ya6lB12MeLNb54jyyVH45_rH4Slle/view?usp=sharing",
+
+  // atmosphere-12-01683-v2...
+  "atmosphere-12-01683-v2.pdf": "https://drive.google.com/file/d/1qBJppBPGeTz3Y9Ctk8e6S8qkOBLy3YOX/view?usp=sharing",
+
+  // atmosphere-13-00764-v2...
+  "atmosphere-13-00764-v2.pdf": "https://drive.google.com/file/d/1eyat2fCuIdahgdEsFCR71dECjUTo94Pc/view?usp=sharing",
+
+  // atmosphere-13-01866...
+  "atmosphere-13-01866.pdf": "https://drive.google.com/file/d/1Rm3BoZvVolUdO1-HMpJc_73BrkQToJeM/view?usp=sharing",
+
+  // atmosphere-13-02069-v2...
+  "atmosphere-13-02069-v2.pdf": "https://drive.google.com/file/d/1lU1xsTU_m18DaGuvWRfJ5WTPZuG2zoSO/view?usp=sharing",
+
+  // atmosphere-14-00454...
+  "atmosphere-14-00454.pdf": "https://drive.google.com/file/d/1YOYHg0i_fXMDlchBAnFHAYvvfr154XXb/view?usp=sharing",
+
+  // atmosphere-14-00454 (1)...
+  "atmosphere-14-00454_1.pdf": "https://drive.google.com/file/d/1xGlh6a73KXU2rNq0r_kyoTs7aMMFqvM5/view?usp=sharing",
+
+  // fclim-05-1069994...
+  "fclim-05-1069994.pdf": "https://drive.google.com/file/d/10cw5APHAgHVx-f_8nGV43iPw0m1zRKiB/view?usp=sharing",
+
+  // fenvs-10-1006399...
+  "fenvs-10-1006399.pdf": "https://drive.google.com/file/d/1h-2MqxpytZV6Y8Jd_EWfNDjOewqr8N91/view?usp=sharing",
+
+  // j.atmosres.2021.105481...
+  "jatmosres2021105481.pdf": "https://drive.google.com/file/d/1NB1NNBZU2vLXjCz4kYZRZnyJwQGi78FT/view?usp=sharing",
+
+  // jwc0142342...
+  "jwc0142342.pdf": "https://drive.google.com/file/d/1ONln40D8Lj-BTRNM_6XoD7tHvepOIu0v/view?usp=sharing",
+
+  // jwc2024141...
+  "jwc2024141.pdf": "https://drive.google.com/file/d/1gtsqycutBTKbYO4_q51yZ1Yrpj4402CO/view?usp=sharing",
+
+  // s00382-021-05984-6...
+  "s00382-021-05984-6.pdf": "https://drive.google.com/file/d/1ArNErYheXH6Oyoy9Q3wqTU0JZxY-rBjf/view?usp=sharing",
+
+  // s00382-021-06113-z...
+  "s00382-021-06113-z.pdf": "https://drive.google.com/file/d/1jLfEqC9lAwZSBMBBMssUrwaPeHrmQcj7/view?usp=sharing",
+
+  // s00704-022-04280-5...
+  "s00704-022-04280-5.pdf": "https://drive.google.com/file/d/14DCB82FA4scZ8d6JE9WSIT01rQtFN4m8/view?usp=sharing",
+
+  // s00704-023-04661-4...
+  "s00704-023-04661-4.pdf": "https://drive.google.com/file/d/1WegEmM539_ImQEOpF18y73S0pVFPOPp4/view?usp=sharing",
+
+  // s10113-023-02142-y...
+  "s10113-023-02142-y.pdf": "https://drive.google.com/file/d/1mWW6nItJZHBPonlWI_XFUpNti0qHaqCd/view?usp=sharing",
+
+  // s10661-021-09418-y...
+  "s10661-021-09418-y.pdf": "https://drive.google.com/file/d/1mM8nyye7XkvCvBHzTXnWvqehzSO_ewSe/view?usp=sharing",
+
+  // s10661-021-09689-5...
+  "s10661-021-09689-5.pdf": "https://drive.google.com/file/d/10tNDtREVx1iDi8-QGL-qrM-_TEhDNATW/view?usp=sharing",
+
+  // s10661-024-12693-0...
+  "s10661-024-12693-0.pdf": "https://drive.google.com/file/d/1kkXyEONkaTnVBo1eeJGhEeKaSifcw46q/view?usp=sharing",
+
+  // s10668-023-03476-7...
+  "s10668-023-03476-7.pdf": "https://drive.google.com/file/d/1iNHUDX-bNl9iLOfWJCct4vpbErlyzTyf/view?usp=sharing",
+
+  // s11069-022-05616-0...
+  "s11069-022-05616-0.pdf": "https://drive.google.com/file/d/1d-yNfV877d3OA1-G1Yv3ftLCpWs_rKox/view?usp=sharing",
+
+  // s11356-023-28263-9...
+  "s11356-023-28263-9.pdf": "https://drive.google.com/file/d/1BHa22X1_e8Us_zYTIRtpZt1zQrSUYpro/view?usp=sharing",
+
+  // s41477-024-01855-0...
+  "s41477-024-01855-0.pdf": "https://drive.google.com/file/d/1-_7O8EGuzjUDl7gp0Qf5650VFOJEHsUc/view?usp=sharing",
+
+  // s41561-022-01076-0...
+  "s41561-022-01076-0.pdf": "https://drive.google.com/file/d/1RqmGpFRIYO-pireHkqXJeaexwiSzvYNN/view?usp=sharing",
+
+  // s41561-023-01331-y...
+  "s41561-023-01331-y.pdf": "https://drive.google.com/file/d/1kt1nrJpBAOuCFyZ7PF_CC-JumB_aznMA/view?usp=sharing",
+
+};
+
+// Helper function to get paper URL
+function getPaperUrl(pdfFilename: string, page: number): string | null {
+  const driveLink = PAPER_LINKS[pdfFilename];
+  if (driveLink) {
+    // Convert Google Drive view link to direct preview
+    // From: https://drive.google.com/file/d/FILE_ID/view
+    // To: https://drive.google.com/file/d/FILE_ID/preview
+    return driveLink.replace('/view', '/preview');
+  }
+  return null;
+}
+
+// ============================================
+
 // Image Modal Component
 function ImageModal({ 
   image, 
@@ -76,9 +199,13 @@ function ImageModal({
 
 // Source Button Component
 function SourceButton({ source }: { source: SourceData }) {
+  const paperUrl = getPaperUrl(source.pdfFile, source.page);
+  const hasLink = !!paperUrl;
+  
   const handleClick = () => {
-    // Open PDF in new tab from papers folder
-    window.open(`/papers/${encodeURIComponent(source.pdfFile)}#page=${source.page}`, '_blank');
+    if (paperUrl) {
+      window.open(paperUrl, '_blank');
+    }
   };
 
   // Truncate long titles
@@ -87,14 +214,17 @@ function SourceButton({ source }: { source: SourceData }) {
     : source.title;
 
   return (
-    <button
-      onClick={handleClick}
-      className="group flex items-center gap-2 px-3 py-2 bg-white hover:bg-himalayan-50 
-                 border border-himalayan-200 hover:border-himalayan-400 rounded-lg 
-                 shadow-sm hover:shadow transition-all text-left"
+    <div
+      onClick={hasLink ? handleClick : undefined}
+      className={`group flex items-center gap-2 px-3 py-2 bg-white 
+                 border border-himalayan-200 rounded-lg shadow-sm text-left
+                 ${hasLink 
+                   ? 'hover:bg-himalayan-50 hover:border-himalayan-400 hover:shadow cursor-pointer' 
+                   : 'opacity-90'
+                 } transition-all`}
       title={`${source.title} - Page ${source.page}`}
     >
-      <span className="text-red-500 group-hover:scale-110 transition-transform">
+      <span className={`${hasLink ? 'text-red-500 group-hover:scale-110' : 'text-gray-400'} transition-transform`}>
         <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M10.92,12.31C10.68,11.54 10.15,9.08 11.55,9.04C12.95,9 12.03,12.16 12.03,12.16C12.42,13.65 14.05,14.72 14.05,14.72C14.05,14.72 16.76,14.38 16.76,15.5C16.76,16.63 14.4,16.23 14.4,16.23C14.4,16.23 13.35,15.18 12.77,15.33C12.2,15.47 9.3,18.22 8.45,17.46C7.6,16.7 10.91,13.67 10.91,13.67C10.91,13.67 11.16,13.08 10.92,12.31Z"/>
         </svg>
@@ -103,12 +233,18 @@ function SourceButton({ source }: { source: SourceData }) {
         <p className="text-sm font-medium text-gray-800 truncate">{displayTitle}</p>
         <p className="text-xs text-gray-500">Page {source.page}</p>
       </div>
-      <span className="text-gray-400 group-hover:text-himalayan-600 transition-colors">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </span>
-    </button>
+      {hasLink ? (
+        <span className="text-gray-400 group-hover:text-himalayan-600 transition-colors">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </span>
+      ) : (
+        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+          Reference
+        </span>
+      )}
+    </div>
   );
 }
 
@@ -379,7 +515,7 @@ export default function Home() {
                               Source Papers
                             </h4>
                             <span className="text-xs text-gray-500">
-                              (Click to open PDF)
+                              (Click to view if available)
                             </span>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
