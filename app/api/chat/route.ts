@@ -11,7 +11,9 @@ const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
 });
 
-const index = pinecone.index(process.env.PINECONE_INDEX_NAME || 'himalayan-climate-kb');
+const index = pinecone.index(
+  process.env.PINECONE_INDEX_NAME || 'himalayan-climate-kb'
+);
 
 // Types
 interface PineconeMatch {
@@ -95,13 +97,19 @@ export async function POST(request: NextRequest) {
       (item) => item.type === 'image' && item.imageUrl
     );
 
-    // Get unique papers for reference
-    const uniquePapers = [...new Set(contextItems.map((item) => item.source))];
+    // Get unique papers for reference without using Set spread (ES5-friendly)
+    const uniquePapers: string[] = [];
+    for (const item of contextItems) {
+      if (!uniquePapers.includes(item.source)) {
+        uniquePapers.push(item.source);
+      }
+    }
+
     const paperMapping: Record<string, string> = {};
-    uniquePapers.forEach((paper) => {
+    for (const paper of uniquePapers) {
       // In case you want to change display names later
       paperMapping[paper] = paper; // Full paper name
-    });
+    }
 
     // Build context string for GPT with FULL paper names
     let contextString = '';
@@ -190,7 +198,7 @@ Remember: Users will see the actual images, so describe what they show and why t
         pdfFile: createPdfFilename(img.source),
         score: img.score,
       })),
-      sources: sources.slice(0, 6),
+    sources: sources.slice(0, 6),
     });
   } catch (error) {
     console.error('Chat API Error:', error);
