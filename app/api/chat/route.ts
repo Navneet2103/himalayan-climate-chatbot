@@ -2,11 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
 
-// Initialize clients
+// Initialize OpenAI client
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Initialize Pinecone client
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
 });
@@ -20,7 +21,7 @@ interface PineconeMatch {
   id: string;
   score?: number;
   metadata?: {
-    content_type: 'text' | 'image';
+    content_type: string;
     paper_title: string;
     page_number: number;
     content: string;
@@ -56,7 +57,10 @@ export async function POST(request: NextRequest) {
     const { message, chatHistory = [] } = await request.json();
 
     if (!message) {
-      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Message is required' },
+        { status: 400 }
+      );
     }
 
     // Step 1: Create embedding for the user's query
@@ -76,8 +80,6 @@ export async function POST(request: NextRequest) {
     });
 
     // Step 3: Process search results
-    // Cast matches to our PineconeMatch shape so TypeScript
-    // knows about the metadata fields we stored in Pinecone.
     const matches = (searchResults.matches || []) as PineconeMatch[];
 
     const contextItems: ContextItem[] = matches
@@ -97,19 +99,19 @@ export async function POST(request: NextRequest) {
       (item) => item.type === 'image' && item.imageUrl
     );
 
-    // Get unique papers for reference without using Set spread (ES5-friendly)
+    // Get unique papers for reference (ES5-friendly, no Set)
     const uniquePapers: string[] = [];
-    for (const item of contextItems) {
-      if (!uniquePapers.includes(item.source)) {
+    contextItems.forEach((item) => {
+      if (uniquePapers.indexOf(item.source) === -1) {
         uniquePapers.push(item.source);
       }
-    }
+    });
 
     const paperMapping: Record<string, string> = {};
-    for (const paper of uniquePapers) {
+    uniquePapers.forEach((paper) => {
       // In case you want to change display names later
       paperMapping[paper] = paper; // Full paper name
-    }
+    });
 
     // Build context string for GPT with FULL paper names
     let contextString = '';
@@ -117,14 +119,14 @@ export async function POST(request: NextRequest) {
     if (textResults.length > 0) {
       contextString += '### Relevant Text from Research Papers:\n\n';
       textResults.forEach((item) => {
-        contextString += `[Paper: "${item.source}", Page ${item.page}]\n${item.content}\n\n`;
+        contextString += `[Paper: \"${item.source}\", Page ${item.page}]\n${item.content}\n\n`;
       });
     }
 
     if (imageResults.length > 0) {
       contextString += '### Relevant Figures/Charts Available:\n\n';
       imageResults.forEach((item) => {
-        contextString += `[Figure from: "${item.source}", Page ${item.page}]\nFigure Description: ${item.content}\n\n`;
+        contextString += `[Figure from: \"${item.source}\", Page ${item.page}]\nFigure Description: ${item.content}\n\n`;
       });
     }
 
@@ -132,22 +134,22 @@ export async function POST(request: NextRequest) {
     const systemPrompt = `You are an expert research assistant specializing in Himalayan climate, glaciology, hydrology, and environmental science. You answer questions using a comprehensive knowledge base of peer-reviewed research papers.
 
 IMPORTANT INSTRUCTIONS FOR CITATIONS:
-1. When citing information, ALWAYS use the EXACT full paper title provided in the context
-2. Format citations as: (Paper: "Full Paper Title", Page X)
-3. NEVER use generic references like "Source 1" or "Source 8" - always use the actual paper name
-4. Be specific about which paper each piece of information comes from
+1. When citing information, ALWAYS use the EXACT full paper title provided in the context.
+2. Format citations as: (Paper: "Full Paper Title", Page X).
+3. NEVER use generic references like "Source 1" or "Source 8" - always use the actual paper name.
+4. Be specific about which paper each piece of information comes from.
 
 IMPORTANT INSTRUCTIONS FOR FIGURES:
-1. When figures/charts are relevant to the answer, MENTION them explicitly
-2. Say something like "A relevant figure from [Paper Name] on page X illustrates this..."
-3. Describe what the figure shows if the description is helpful
+1. When figures/charts are relevant to the answer, MENTION them explicitly.
+2. Say something like "A relevant figure from [Paper Name] on page X illustrates this...".
+3. Describe what the figure shows if the description is helpful.
 
 Your role:
-- Answer questions accurately using ONLY the provided context
-- Cite specific papers by their FULL TITLE and page numbers
-- Explain complex concepts clearly while maintaining scientific accuracy
-- If the context doesn't contain enough information, acknowledge this honestly
-- When relevant figures exist, reference them to support your answer
+- Answer questions accurately using ONLY the provided context.
+- Cite specific papers by their FULL TITLE and page numbers.
+- Explain complex concepts clearly while maintaining scientific accuracy.
+- If the context doesn't contain enough information, acknowledge this honestly.
+- When relevant figures exist, reference them to support your answer.
 
 Remember: Users will see the actual images, so describe what they show and why they're relevant.`;
 
@@ -171,14 +173,14 @@ Remember: Users will see the actual images, so describe what they show and why t
       max_tokens: 1500,
     });
 
-    const assistantMessage = completion.choices[0].message.content ?? '';
+    const assistantMessage = completion.choices[0].message.content || '';
 
-    // Prepare sources with PDF filenames for linking
-        // Prepare sources with PDF filenames for linking (ES5-friendly, no Map/Set iteration)
-    const sourceMap: { [key: string]: { title: string; page: number; pdfFile: string } } = {};
+    // Prepare sources with PDF filenames for linking (ES5-friendly, no Map)
+    const sourceMap: {
+      [key: string]: { title: string; page: number; pdfFile: string };
+    } = {};
 
-    // Deduplicate by source title: first occurrence wins
-    for (const t of textResults) {
+    textResults.forEach((t) => {
       if (!sourceMap[t.source]) {
         sourceMap[t.source] = {
           title: t.source,
@@ -186,15 +188,12 @@ Remember: Users will see the actual images, so describe what they show and why t
           pdfFile: createPdfFilename(t.source),
         };
       }
-    }
+    });
 
     const sources: { title: string; page: number; pdfFile: string }[] = [];
-    for (const key in sourceMap) {
-      if (Object.prototype.hasOwnProperty.call(sourceMap, key)) {
-        sources.push(sourceMap[key]);
-      }
-    }
-
+    Object.keys(sourceMap).forEach((key) => {
+      sources.push(sourceMap[key]);
+    });
 
     // Return response with images and proper sources
     return NextResponse.json({
@@ -207,7 +206,7 @@ Remember: Users will see the actual images, so describe what they show and why t
         pdfFile: createPdfFilename(img.source),
         score: img.score,
       })),
-    sources: sources.slice(0, 6),
+      sources: sources.slice(0, 6),
     });
   } catch (error) {
     console.error('Chat API Error:', error);
