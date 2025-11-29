@@ -69,16 +69,21 @@ export async function POST(request: NextRequest) {
     });
 
     // Step 3: Process search results
-    const contextItems: ContextItem[] = (searchResults.matches || [])
-      .filter((match: PineconeMatch) => match.metadata && (match.score || 0) > 0.3)
-      .map((match: PineconeMatch) => ({
+
+// Tell TS that these matches have the metadata shape we stored in Pinecone
+    const matches = (searchResults.matches || []) as PineconeMatch[];
+    
+    const contextItems: ContextItem[] = matches
+      .filter((match) => match.metadata && (match.score || 0) > 0.3)
+      .map((match) => ({
         type: match.metadata!.content_type as 'text' | 'image',
         content: match.metadata!.content,
-        source: match.metadata!.paper_title,
-        page: match.metadata!.page_number,
+        paperTitle: match.metadata!.paper_title,
+        pageNumber: match.metadata!.page_number,
         imageUrl: match.metadata!.image_url,
-        score: match.score || 0,
+        paperId: match.metadata!.paper_id,
       }));
+
 
     // Separate text and image results
     const textResults = contextItems.filter(item => item.type === 'text');
