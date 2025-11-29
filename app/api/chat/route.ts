@@ -174,18 +174,27 @@ Remember: Users will see the actual images, so describe what they show and why t
     const assistantMessage = completion.choices[0].message.content ?? '';
 
     // Prepare sources with PDF filenames for linking
-    const sources = [
-      ...new Map(
-        textResults.map((t) => [
-          t.source,
-          {
-            title: t.source,
-            page: t.page,
-            pdfFile: createPdfFilename(t.source),
-          },
-        ])
-      ).values(),
-    ];
+        // Prepare sources with PDF filenames for linking (ES5-friendly, no Map/Set iteration)
+    const sourceMap: { [key: string]: { title: string; page: number; pdfFile: string } } = {};
+
+    // Deduplicate by source title: first occurrence wins
+    for (const t of textResults) {
+      if (!sourceMap[t.source]) {
+        sourceMap[t.source] = {
+          title: t.source,
+          page: t.page,
+          pdfFile: createPdfFilename(t.source),
+        };
+      }
+    }
+
+    const sources: { title: string; page: number; pdfFile: string }[] = [];
+    for (const key in sourceMap) {
+      if (Object.prototype.hasOwnProperty.call(sourceMap, key)) {
+        sources.push(sourceMap[key]);
+      }
+    }
+
 
     // Return response with images and proper sources
     return NextResponse.json({
